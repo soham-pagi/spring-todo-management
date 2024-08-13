@@ -10,6 +10,6 @@ public interface TodoService {
     List<TodoDto> getAllTodos();
     TodoDto updateTodo(TodoDto todoDto, Long todoId);
     void deleteTodo(Long todoId);
-
     TodoDto completeTodo(Long todoId);
+    TodoDto incompleteTodo(Long todoId);
 }
