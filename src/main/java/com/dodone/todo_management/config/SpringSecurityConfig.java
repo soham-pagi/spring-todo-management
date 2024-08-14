@@ -3,6 +3,7 @@ package com.dodone.todo_management.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -26,6 +27,9 @@ public class SpringSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN");
                     authorize.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults());
@@ -38,7 +42,7 @@ public class SpringSecurityConfig {
         UserDetails soham = User.builder()
                 .username("soham")
                 .password(passwordEncoder().encode("password"))
-                .roles("ADMIN")
+                .roles("USER")
                 .build();
 
         UserDetails admin = User.builder()
